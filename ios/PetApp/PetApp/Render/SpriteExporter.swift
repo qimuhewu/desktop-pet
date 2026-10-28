@@ -1,5 +1,6 @@
 import Foundation
 import CoreGraphics
+import UIKit
 import ImageIO
 import UniformTypeIdentifiers
 
