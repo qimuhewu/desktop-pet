@@ -1,4 +1,5 @@
 import SwiftUI
+import WidgetKit
 
 /// 主界面：宠物舞台 + 状态条（PRD §5.4；时序图 5.3 的 App 侧）。
 struct MainView: View {

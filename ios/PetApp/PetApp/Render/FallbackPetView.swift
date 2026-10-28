@@ -116,13 +116,11 @@ struct FallbackPetView: View {
         for side in [-1.0, 1.0] {
             let cheekCenter = CGPoint(x: CGFloat(side) * bodyRadius * 0.6, y: bodyRadius * 0.22).applying(transform)
             let cheekRadius = bodyRadius * 0.12
-            context.opacity = pose == .shy ? 0.85 : 0.4
             context.fill(
                 Path(ellipseIn: CGRect(
                     x: cheekCenter.x - cheekRadius, y: cheekCenter.y - cheekRadius,
                     width: cheekRadius * 2, height: cheekRadius * 2)),
-                with: .color(cheekColor))
-            context.opacity = 1.0
+                with: .color(cheekColor.opacity(pose == .shy ? 0.85 : 0.4)))
         }
 
         // 开心姿态：头顶冒爱心粒子（小圆点近似）
@@ -133,11 +131,9 @@ struct FallbackPetView: View {
                 let fy = -Double(bodyRadius) - Double(earHeight) * 0.7 - phase * Double(bodyRadius) * 0.8
                 let point = CGPoint(x: fx, y: fy).applying(transform)
                 let radius = bodyRadius * 0.08
-                context.opacity = max(0, 1.0 - phase)
                 context.fill(
                     Path(ellipseIn: CGRect(x: point.x - radius, y: point.y - radius, width: radius * 2, height: radius * 2)),
-                    with: .color(happyColor))
-                context.opacity = 1.0
+                    with: .color(happyColor.opacity(max(0, 1.0 - phase))))
             }
         }
     }

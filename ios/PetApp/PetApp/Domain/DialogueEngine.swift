@@ -20,7 +20,8 @@ final class DialogueEngine {
     }
 
     /// 语料集合（对应 dialogue_zh.json 全文）。
-    struct DialogueCorpus: Codable {
+    /// 仅需解码（语料只从 JSON 载入，导出存档不含语料），故声明 Decodable 而非 Codable。
+    struct DialogueCorpus: Decodable {
         var rules: [DialogueRule] = []
         var fallback: [String] = []
         var tapReactions: [String] = []

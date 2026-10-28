@@ -1,5 +1,6 @@
 import SwiftUI
 import WidgetKit
+import ActivityKit
 
 /// 设置页（iOS 侧）：灵动岛/小组件控制、提醒入口、关于与 Cubism 版权声明（共享知识 #11）。
 struct SettingsView: View {
@@ -59,7 +60,8 @@ struct SettingsView: View {
         }
         .navigationTitle("⚙ 设置")
         .task {
-            liveActivityEnabled = environment.liveActivityController.isSupported &&
+            // areActivitiesEnabled 反映系统设置中用户对实时活动的总开关（isSupported 是 ActivityKit 静态成员，不能经协议实例调用）
+            liveActivityEnabled = ActivityAuthorizationInfo().areActivitiesEnabled &&
                 environment.liveActivityController.hasActiveActivity
         }
     }

@@ -21,7 +21,8 @@ targets:
   PetApp:
     type: application
     platform: iOS
-    deploymentTarget: "16.0"
+    # 16.2：ActivityKit 的 ActivityContent/request(content:)/update(content:) API 基线（LiveActivityController）
+    deploymentTarget: "16.2"
     sources:
       - path: PetApp
         # Live2DRenderer.swift 内部用 #if canImport(Live2DCubismCore) 隔离 SDK 依赖，

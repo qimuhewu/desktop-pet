@@ -136,7 +136,7 @@ final class SpriteExporter {
                     startAngle: .pi * 1.15, endAngle: .pi * 1.85, clockwise: false)
                 context.strokePath()
             } else {
-                context.setFillColor(.white)
+                context.setFillColor(UIColor.white.cgColor)
                 context.fillEllipse(in: CGRect(
                     x: eyeX - bodyRadius * 0.14, y: eyeY - bodyRadius * 0.14,
                     width: bodyRadius * 0.28, height: bodyRadius * 0.28))
