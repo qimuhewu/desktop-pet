@@ -35,8 +35,7 @@ jobs:
             -derivedDataPath build \
             CODE_SIGNING_ALLOWED=NO \
             CODE_SIGN_IDENTITY="" \
-            CODE_SIGNING_REQUIRED=NO \
-            | tail -30
+            CODE_SIGNING_REQUIRED=NO
 
       - name: Package .ipa
         run: |
