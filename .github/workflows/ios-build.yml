@@ -26,6 +26,7 @@ jobs:
       - name: Build unsigned .ipa (兜底渲染分支，无需 Cubism SDK)
         working-directory: ios/PetApp
         run: |
+          set -o pipefail
           xcodebuild \
             -project PetApp.xcodeproj \
             -scheme PetApp \

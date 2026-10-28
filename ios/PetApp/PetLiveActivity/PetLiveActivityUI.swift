@@ -24,8 +24,14 @@ struct PetLiveActivityUI: Widget {
                     ExpandedView(state: context.state)
                 }
                 DynamicIslandExpandedRegion(.trailing) {
-                    // 喂食快捷按钮（AppIntent）
-                    Button(intent: FeedAppIntent()) {
+                    // 喂食快捷按钮（AppIntent）：extension 环境要求 iOS 17.0+，
+                    // iOS 16.x 降级为静态图标（无交互，不影响其他功能）
+                    if #available(iOSApplicationExtension 17.0, *) {
+                        Button(intent: FeedAppIntent()) {
+                            Text("🍖")
+                                .font(.title2)
+                        }
+                    } else {
                         Text("🍖")
                             .font(.title2)
                     }
