@@ -1,0 +1,25 @@
+# ===== Cubism SDK 与示例模型：二进制一律不入库（硬性约束 1）=====
+third_party/
+
+# 模型资产运行时目录（Android 私有目录由 App 管理；此处防误提交）
+android/app/src/main/assets/models/*
+!android/app/src/main/assets/models/README.md
+
+# ===== 构建产物 =====
+android/.gradle/
+android/build/
+android/app/build/
+android/local.properties
+android/.idea/
+*.iml
+
+# iOS / Xcode（本仓库不入库 .xcodeproj，由 XcodeGen 生成）
+ios/PetApp/PetApp.xcodeproj/
+ios/PetApp/DerivedData/
+ios/PetApp/Pods/
+
+# ===== IDE / 系统 =====
+.idea/
+.vscode/
+.DS_Store
+Thumbs.db

@@ -1,0 +1,10 @@
+{
+  "version": 1,
+  "foods": [
+    { "id": "rice_ball",  "name": "饭团",   "hungerGain": 30, "moodGain": 5,  "intimacyGain": 3, "expGain": 10, "iconKey": "rice_ball" },
+    { "id": "bento",      "name": "便当",   "hungerGain": 40, "moodGain": 5,  "intimacyGain": 2, "expGain": 10, "iconKey": "bento" },
+    { "id": "cake",       "name": "蛋糕",   "hungerGain": 20, "moodGain": 15, "intimacyGain": 5, "expGain": 12, "iconKey": "cake" },
+    { "id": "dried_fish", "name": "小鱼干", "hungerGain": 15, "moodGain": 8,  "intimacyGain": 8, "expGain": 15, "iconKey": "dried_fish" },
+    { "id": "milk_tea",   "name": "奶茶",   "hungerGain": 10, "moodGain": 20, "intimacyGain": 6, "expGain": 8,  "iconKey": "milk_tea" }
+  ]
+}

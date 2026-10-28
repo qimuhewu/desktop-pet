@@ -1,0 +1,29 @@
+{
+  "version": 1,
+  "templates": [
+    {
+      "key": "drink_water",
+      "name": "喝水提醒",
+      "defaultIntervalMinutes": 60,
+      "message": "该喝水啦~ {petName}陪你一起喝水吧！"
+    },
+    {
+      "key": "stretch",
+      "name": "久坐提醒",
+      "defaultIntervalMinutes": 90,
+      "message": "坐了好久啦，起来伸个懒腰，{petName}陪你活动一下~"
+    },
+    {
+      "key": "pomodoro",
+      "name": "番茄钟",
+      "defaultIntervalMinutes": 25,
+      "message": "专注 25 分钟结束啦，休息一下吧~ {petName}给你比心！"
+    },
+    {
+      "key": "custom",
+      "name": "自定义提醒",
+      "defaultIntervalMinutes": 30,
+      "message": "{petName}来提醒你啦！别忘了这件事哦~"
+    }
+  ]
+}

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<!-- 双端统一 App Group（架构文档 §8 共享知识 #1）：PNG 序列与共享数据目录 -->
+	<key>com.apple.security.application-groups</key>
+	<array>
+		<string>group.com.mobiledesktoppet.shared</string>
+	</array>
+</dict>
+</plist>

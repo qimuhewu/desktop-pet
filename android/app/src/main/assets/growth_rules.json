@@ -1,0 +1,34 @@
+{
+  "version": 1,
+  "decayPerHour": {
+    "hunger": -2.0,
+    "mood": -1.5,
+    "intimacy": -0.5
+  },
+  "levelCurve": {
+    "base": 100,
+    "step": 50,
+    "maxLevel": 99
+  },
+  "clamp": {
+    "min": 0.0,
+    "max": 100.0
+  },
+  "thresholds": {
+    "hungerLow": 30,
+    "moodLow": 30
+  },
+  "tapReaction": {
+    "moodGain": 1,
+    "intimacyGain": 1
+  },
+  "defaults": {
+    "profileId": "default_pet",
+    "name": "小希",
+    "level": 1,
+    "exp": 0,
+    "hunger": 80.0,
+    "mood": 60.0,
+    "intimacy": 50.0
+  }
+}

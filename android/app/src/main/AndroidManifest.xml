@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- 权限声明、Service/Receiver 注册（通知渠道在 PetApplication.onCreate 统一创建） -->
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <!-- 悬浮窗（P0-1：真·桌宠核心） -->
+    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
+    <!-- 前台 Service（悬浮窗常驻，API 34 需声明类型 specialUse） -->
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE_SPECIAL_USE" />
+    <!-- 提醒通知（API 33+ 运行时申请） -->
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
+    <!-- 精确闹钟（提醒 P1-1；仅 SCHEDULE_EXACT_ALARM——Play 政策下 USE_EXACT_ALARM 仅限闹钟/日历类 App，
+         已移除；无精确授权时 ReminderSchedulerImpl 降级 setWindow，并有 WorkManager 周期兜底） -->
+    <uses-permission android:name="android.permission.SCHEDULE_EXACT_ALARM" />
+    <!-- 开机重排提醒 -->
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+    <!-- 震动反馈（点按互动） -->
+    <uses-permission android:name="android.permission.VIBRATE" />
+
+    <application
+        android:name=".PetApplication"
+        android:allowBackup="true"
+        android:label="桌宠"
+        android:supportsRtl="true"
+        android:theme="@style/Theme.Material3.DayNight.NoActionBar"
+        tools:targetApi="34">
+
+        <!-- 入口 Activity：路由到各 Screen；支持 petapp:// 深链（提醒通知跳转） -->
+        <activity
+            android:name=".ui.MainActivity"
+            android:exported="true"
+            android:launchMode="singleTask">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <data android:scheme="petapp" android:host="reminder" />
+            </intent-filter>
+        </activity>
+
+        <!-- 悬浮窗前台服务（specialUse：无法归类到系统预置类型的常驻悬浮宠物） -->
+        <service
+            android:name=".service.OverlayPetService"
+            android:exported="false"
+            android:foregroundServiceType="specialUse">
+            <property
+                android:name="android.app.PROPERTY_SPECIAL_USE_FGS_SUBTYPE"
+                android:value="virtual_pet_overlay_companion" />
+        </service>
+
+        <!-- 提醒到点广播（系统 AlarmManager 触发，protected broadcast） -->
+        <receiver
+            android:name=".reminder.ReminderReceiver"
+            android:exported="false" />
+
+        <!-- 开机重排提醒（protected broadcast，系统专属发送） -->
+        <receiver
+            android:name=".reminder.BootReceiver"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+            </intent-filter>
+        </receiver>
+    </application>
+</manifest>

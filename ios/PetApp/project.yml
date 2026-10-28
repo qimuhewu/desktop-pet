@@ -1,0 +1,121 @@
+# XcodeGen 工程描述：生成 PetApp.xcodeproj（避免二进制工程文件入库）
+# 用法（Mac）: cd ios/PetApp && xcodegen
+# min iOS 16.0（已拍板）；SwiftData 需 iOS 17，iOS 16 走 JSON 文件兜底存储（架构文档 §9 方案）。
+name: PetApp
+options:
+  bundleIdPrefix: com.mobiledesktoppet
+  deploymentTarget:
+    iOS: "16.0"
+  createIntermediateGroups: true
+
+settings:
+  base:
+    SWIFT_VERSION: "5.9"
+    DEVELOPMENT_TEAM: ""
+    CODE_SIGN_STYLE: Automatic
+
+packages: {}
+
+targets:
+  # ---- 主 App ----
+  PetApp:
+    type: application
+    platform: iOS
+    deploymentTarget: "16.0"
+    sources:
+      - path: PetApp
+        # Live2DRenderer.swift 内部用 #if canImport(Live2DCubismCore) 隔离 SDK 依赖，
+        # 无 SDK 时编译 #else 分支（loadModel 返回 false → 兜底渲染）。
+      - path: Resources
+        type: folder
+        buildPhase: resources
+    entitlements:
+      path: PetApp.entitlements
+      properties:
+        com.apple.security.application-groups:
+          - group.com.mobiledesktoppet.shared
+    info:
+      path: Info.plist
+      properties:
+        CFBundleDisplayName: 桌宠
+        NSSupportsLiveActivities: true
+        NSSupportsLiveActivitiesFrequentUpdates: true
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.mobiledesktoppet.app
+        TARGETED_DEVICE_FAMILY: "1"
+
+  # ---- 桌面/锁屏小组件（WidgetKit Extension）----
+  PetWidget:
+    type: app-extension
+    platform: iOS
+    deploymentTarget: "16.0"
+    sources:
+      - path: PetWidget
+      # App Group 常量与 Extension 共用
+      - path: PetApp/AppInfo.swift
+    entitlements:
+      path: PetWidget/PetWidget.entitlements
+      properties:
+        com.apple.security.application-groups:
+          - group.com.mobiledesktoppet.shared
+    info:
+      path: PetWidget/Info.plist
+      properties:
+        CFBundleDisplayName: 桌宠小组件
+        NSExtension:
+          NSExtensionPointIdentifier: com.apple.widgetkit-extension
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.mobiledesktoppet.app.PetWidget
+
+  # ---- 灵动岛 Live Activity UI（ActivityKit Extension）----
+  PetLiveActivity:
+    type: app-extension
+    platform: iOS
+    deploymentTarget: "16.1"   # ActivityKit 最低 16.1
+    sources:
+      - path: PetLiveActivity
+      # App Group 常量与 Attributes 与 Extension 共用
+      - path: PetApp/AppInfo.swift
+      # Attributes 与 App 共用（ActivityAttributes 必须在主 App 与 Extension 同时编译）
+      - path: PetApp/LiveActivity/PetActivityAttributes.swift
+    entitlements:
+      path: PetLiveActivity/PetLiveActivity.entitlements
+      properties:
+        com.apple.security.application-groups:
+          - group.com.mobiledesktoppet.shared
+    info:
+      path: PetLiveActivity/Info.plist
+      properties:
+        CFBundleDisplayName: 桌宠灵动岛
+        NSExtension:
+          NSExtensionPointIdentifier: com.apple.widgetkit-extension
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.mobiledesktoppet.app.PetLiveActivity
+
+# ---- 单元测试（业务引擎镜像测试，纯逻辑可在任意 Mac/CI 运行）----
+  PetAppTests:
+    type: bundle.unit-test
+    platform: iOS
+    deploymentTarget: "17.0"   # 宿主 App 数据层主通道为 SwiftData
+    sources:
+      - path: PetAppTests
+    dependencies:
+      - target: PetApp
+    info:
+      path: PetAppTests/Info.plist
+      properties: {}
+
+# ---- Schemes ----
+schemes:
+  PetApp:
+    build:
+      targets:
+        PetApp: all
+        PetWidget: all
+        PetLiveActivity: all
+    test:
+      targets:
+        - PetAppTests
